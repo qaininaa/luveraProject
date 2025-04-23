@@ -40,7 +40,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Update state tombol navigasi saat kembali dari aktivitas lain
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
@@ -51,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             if (backToast != null) {
                 backToast.cancel();
             }
-            super.onBackPressed(); // Keluar dari aplikasi
+            super.onBackPressed();
             return;
         } else {
             backToast = Toast.makeText(this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT);
