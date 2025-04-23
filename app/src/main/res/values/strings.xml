@@ -14,4 +14,15 @@
     <string name="cart">Cart</string>
     <string name="history">History</string>
     <string name="profile">Profile</string>
+
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="facebook_login">Login with Facebook</string>
+    <string name="google_login">Login with Google</string>
+    <string name="or">Or</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="nomor_handphone">Nomor Handphone</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Already have an account? Log In</string>
 </resources>
