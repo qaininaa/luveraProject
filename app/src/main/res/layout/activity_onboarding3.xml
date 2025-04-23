@@ -38,7 +38,7 @@
             android:layout_height="320dp"
             android:src="@drawable/barenbliss"></ImageView>
         <ImageButton
-            android:id="@+id/button"
+            android:id="@+id/button_onboarding3"
             android:layout_gravity="center"
             android:layout_width="80dp"
             android:layout_height="80dp"
