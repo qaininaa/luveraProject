@@ -31,6 +31,14 @@ public class HomeActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
+                finish();
+                return true;
+            } else if (itemId == R.id.navigation_profile) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
                 return true;
             }
             return true;

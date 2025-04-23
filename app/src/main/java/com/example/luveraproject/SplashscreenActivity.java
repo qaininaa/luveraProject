@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SplashscreenActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 3000;
+    private static final int SPLASH_DURATION = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

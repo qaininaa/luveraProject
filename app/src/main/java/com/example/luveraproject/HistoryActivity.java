@@ -1,5 +1,6 @@
 package com.example.luveraproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -22,9 +23,18 @@ public class HistoryActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.navigation_home) {
-                // Cukup tutup aktivitas ini, kembali ke Home yang ada di stack
-                finish();
+                Intent intent = new Intent(HistoryActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 overridePendingTransition(0, 0);
+                startActivity(intent);
+                finish();
+                return true;
+            } else if (itemId == R.id.navigation_profile) {
+                Intent intent = new Intent(HistoryActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
                 return true;
             }
             return true;
@@ -33,8 +43,11 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Cukup tutup aktivitas ini, kembali ke Home
-        finish();
+        Intent intent = new Intent(HistoryActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
         overridePendingTransition(0, 0);
+        finish();
+
     }
 }
