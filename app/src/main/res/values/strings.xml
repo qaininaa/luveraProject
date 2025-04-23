@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">LuveraProject</string>
+    <string name="welcome_name">Welcome, Name!</string>
+    <string name="cari_apa">Cari apa?</string>
+    <string name="best_sellers">Best Sellers!</string>
+    <string name="makeup">Makeup</string>
+    <string name="kategori">Kategori</string>
+    <string name="skincare">Skincare</string>
+    <string name="bodycare">Bodycare</string>
+    <string name="haircare">Haircare</string>
+    <string name="rekomendasi_untuk_nama">Rekomendasi untuk Nama</string>
+    <string name="new_corner">New Corner!</string>
+    <string name="home">Home</string>
+    <string name="cart">Cart</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
 </resources>

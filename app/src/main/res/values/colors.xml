@@ -2,4 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#FF4081</color>
+    <color name="colorPrimaryDark">#C2185B</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="pink_light">#F48FB1</color>
+    <color name="pink_medium">#EC407A</color>
+    <color name="pink_dark">#C2185B</color>
+
+    <color name="makeup_bg">#D84315</color>
+    <color name="skincare_bg">#E0E0E0</color>
+    <color name="bodycare_bg">#B71C1C</color>
+    <color name="haircare_bg">#F48FB1</color>
 </resources>
