@@ -2,9 +2,8 @@ package com.example.luveraproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.luveraproject.Adapter.CategoryAdapter;
+import com.example.luveraproject.Adapter.ProductAdapter;
+import com.example.luveraproject.Model.Category;
+import com.example.luveraproject.Model.Product;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +37,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProductAdapter productAdapter;
     private List<Product> productList;
-    private List<Product> allProducts = new ArrayList<>(); // ← penting untuk filter kategori
-    private DatabaseHelper dbHelper;
+    private List<Product> allProducts = new ArrayList<>();
     private TextView welcomeText;
+    private ShimmerFrameLayout shimmerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +50,18 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewProducts);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        dbHelper = new DatabaseHelper(this);
+        shimmerLayout = findViewById(R.id.shimmerLayout);
+        shimmerLayout.startShimmer();
+
         productList = new ArrayList<>();
 
         welcomeText = findViewById(R.id.textWelcome);
 
-        // Ambil username dari SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
         String username = sharedPref.getString("username", "Pengguna");
         welcomeText.setText("Hai, " + username);
 
-        loadProductsFromDatabase();
+        loadProductsFromFirebase();
 
         productAdapter = new ProductAdapter(this, productList, product -> {
             Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
@@ -64,7 +74,6 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(productAdapter);
 
-        // Setup kategori horizontal
         RecyclerView recyclerViewCategory = findViewById(R.id.recyclerViewCategory);
         recyclerViewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -77,7 +86,6 @@ public class HomeActivity extends AppCompatActivity {
         );
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories, categoryName -> {
-            // Filter produk berdasarkan kategori
             if (categoryName.equalsIgnoreCase("Semua")) {
                 productAdapter.updateData(allProducts);
             } else {
@@ -89,7 +97,6 @@ public class HomeActivity extends AppCompatActivity {
         });
         recyclerViewCategory.setAdapter(categoryAdapter);
 
-        // Setup bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -114,31 +121,55 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void loadProductsFromDatabase() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM products", null);
+    private void loadProductsFromFirebase() {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Products");
 
         productList.clear();
         allProducts.clear();
 
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price"));
-                String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                String image = cursor.getString(cursor.getColumnIndexOrThrow("image"));
-                int isNew = cursor.getInt(cursor.getColumnIndexOrThrow("is_new"));
-                String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Long idLong = data.child("id").getValue(Long.class);
+                    int id = idLong != null ? idLong.intValue() : 0;
+                    String name = data.child("name").getValue(String.class);
+                    Double price = data.child("price").getValue(Double.class);
+                    String category = data.child("category").getValue(String.class);
+                    String image = data.child("image").getValue(String.class);
+                    Boolean isNewValue = data.child("is_new").getValue(Boolean.class);
+                    String description = data.child("description").getValue(String.class);
+                    Long stockLong = data.child("stock").getValue(Long.class);
+                    int stock = stockLong != null ? stockLong.intValue() : 0;
+                    boolean isNew = isNewValue != null && isNewValue;
 
-                Product product = new Product(id, name, price, category, image, isNew, description);
-                productList.add(product);
-                allProducts.add(product);
-            } while (cursor.moveToNext());
-        }
+                    Product product = new Product(
+                            id,
+                            name,
+                            price != null ? price : 0.0,
+                            category,
+                            image,
+                            isNew,
+                            description,
+                            stock
+                    );
 
-        cursor.close();
-        db.close();
+                    productList.add(product);
+                    allProducts.add(product);
+                }
+
+                shimmerLayout.stopShimmer();
+                shimmerLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+                productAdapter.updateData(productList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(HomeActivity.this, "Gagal memuat produk: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -1,78 +1,65 @@
 package com.example.luveraproject;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.view.View;
+import android.text.Html;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText etEmail, etPassword;
+    private Button btnLogin;
+    private TextView tvRegister;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        DatabaseHelper db;
-        db = new DatabaseHelper(this);
-        Button btnLogin = findViewById(R.id.btnLogin);
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        tvRegister = findViewById(R.id.tvRegister);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // 👉 Tambahkan teks interaktif "Register now" berwarna biru
+        tvRegister.setText(Html.fromHtml("Belum punya akun? <font color='#0000FF'><u>Register now</u></font>"));
+        tvRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         btnLogin.setOnClickListener(v -> {
-            EditText etEmail = findViewById(R.id.etEmail);
-            EditText etPassword = findViewById(R.id.etPassword);
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (db.checkUser(email, password)) {
-                String username = db.getUsernameByEmail(email);
-
-                SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("username", username);
-                editor.apply();
-
-                startActivity(new Intent(this, HomeActivity.class));
-                finish();
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                Toast.makeText(LoginActivity.this, "Email dan password harus diisi!", Toast.LENGTH_SHORT).show();
+                return;
             }
-            else {
-                Toast.makeText(this, "Login gagal. Periksa kembali data Anda.", Toast.LENGTH_SHORT).show();
-            }
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login gagal: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
         });
-
-        TextView tvRegister = findViewById(R.id.tvRegister);
-        SpannableString ss = new SpannableString("Don't have an account? Register Now");
-
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-                finish();
-            }
-
-            @Override
-            public void updateDrawState(@NonNull TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(getResources().getColor(android.R.color.holo_red_light));
-                ds.setUnderlineText(true);
-            }
-        };
-
-        ss.setSpan(clickableSpan, 23, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        tvRegister.setText(ss);
-        tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
-        tvRegister.setHighlightColor(Color.TRANSPARENT);
     }
 }

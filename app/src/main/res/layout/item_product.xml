@@ -3,42 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
-    app:cardElevation="4dp"
-    android:layout_margin="8dp">
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <!-- Gambar Produk -->
         <ImageView
             android:id="@+id/imageProduct"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:src="@android:color/darker_gray" />
 
+        <!-- Nama Produk -->
         <TextView
             android:id="@+id/textProductName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Nama Produk"
             android:textSize="14sp"
             android:textColor="@android:color/black"
             android:maxLines="2"
-            android:ellipsize="end"
-            android:padding="8dp" />
+            android:ellipsize="end" />
 
+        <!-- Harga Produk -->
         <TextView
             android:id="@+id/textProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Rp100.000"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:paddingStart="8dp"
-            android:paddingBottom="8dp" />
+            android:textColor="@android:color/black" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

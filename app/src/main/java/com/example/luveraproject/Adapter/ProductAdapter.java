@@ -1,4 +1,4 @@
-package com.example.luveraproject;
+package com.example.luveraproject.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.luveraproject.Model.Product;
+import com.example.luveraproject.R;
 
 import java.util.List;
 

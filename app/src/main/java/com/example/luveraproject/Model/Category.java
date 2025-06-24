@@ -1,4 +1,4 @@
-package com.example.luveraproject;
+package com.example.luveraproject.Model;
 
 public class Category {
     private String name;

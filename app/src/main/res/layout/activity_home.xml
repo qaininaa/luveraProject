@@ -62,7 +62,6 @@
                     android:src="@drawable/banner_home" />
             </androidx.cardview.widget.CardView>
 
-            <!-- Tambahkan sebelum TextView Rekomendasi Produk -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +85,6 @@
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_category" />
 
-            <!-- Produk Grid RecyclerView -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,13 +95,26 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="visible"
+                app:shimmer_auto_start="true">
+
+                <include layout="@layout/item_product_shimmer" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewProducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:nestedScrollingEnabled="false"
-                android:clipToPadding="false" />
+                android:clipToPadding="false"
+                android:visibility="gone" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
