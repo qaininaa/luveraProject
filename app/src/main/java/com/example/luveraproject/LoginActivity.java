@@ -1,6 +1,7 @@
 package com.example.luveraproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -10,7 +11,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -23,11 +26,29 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
+        DatabaseHelper db;
+        db = new DatabaseHelper(this);
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            finish();
+            EditText etEmail = findViewById(R.id.etEmail);
+            EditText etPassword = findViewById(R.id.etPassword);
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            if (db.checkUser(email, password)) {
+                String username = db.getUsernameByEmail(email);
+
+                SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("username", username);
+                editor.apply();
+
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+            }
+            else {
+                Toast.makeText(this, "Login gagal. Periksa kembali data Anda.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         TextView tvRegister = findViewById(R.id.tvRegister);
@@ -53,13 +74,5 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister.setText(ss);
         tvRegister.setMovementMethod(LinkMovementMethod.getInstance());
         tvRegister.setHighlightColor(Color.TRANSPARENT);
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Navigasi kembali ke GetStartedActivity
-        Intent intent = new Intent(LoginActivity.this, GetstartedActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

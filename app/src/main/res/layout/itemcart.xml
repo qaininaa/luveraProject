@@ -116,7 +116,7 @@
                 android:id="@+id/imagelipstick2"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:src="@drawable/image"
+                android:src="@drawable/wardah_colorfit"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:layout_marginHorizontal="8dp" />

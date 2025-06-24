@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_marginTop="16dp">
+    android:fitsSystemWindows="true"
+    tools:context=".HomeActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -18,10 +18,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
-            <!-- Header Profile -->
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,395 +33,80 @@
                     android:layout_height="50dp"
                     android:src="@color/pink_medium"
                     app:civ_border_width="2dp"
-                    app:civ_border_color="#FFFFFF"/>
+                    app:civ_border_color="#FFFFFF" />
 
                 <TextView
+                    android:id="@+id/textWelcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/welcome_name"
+                    android:text="Hai, Nama"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16dp"/>
-
+                    android:layout_marginStart="16dp" />
             </LinearLayout>
 
-            <!-- Search Bar -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_search"
-                        android:layout_marginStart="8dp"/>
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/cari_apa"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        android:padding="8dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Promo Banner -->
+            <!-- Banner -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="16dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
 
-                <FrameLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/banner_home"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="24dp">
-                    </LinearLayout>
-                </FrameLayout>
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/banner_home" />
             </androidx.cardview.widget.CardView>
 
-            <!-- Best Sellers Section Title -->
+            <!-- Tambahkan sebelum TextView Rekomendasi Produk -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/best_sellers"
-                android:textSize="22sp"
+                android:text="Kategori"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginTop="16dp" />
 
-            <!-- Categories Horizontal Scroll -->
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- Makeup Category -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="8dp">
-
-                        <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/kategori_makeup"
-                            android:adjustViewBounds="true"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/makeup"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:layout_marginTop="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/kategori"
-                            android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
-                    </LinearLayout>
-
-                    <!-- Skincare Category -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp">
-
-                        <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/kategori_skincare"
-                            android:adjustViewBounds="true"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/skincare"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:layout_marginTop="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/kategori"
-                            android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
-                    </LinearLayout>
-
-                    <!-- Bodycare Category -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp">
-
-                        <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/kategori_bodycare"
-                            android:adjustViewBounds="true"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bodycare"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:layout_marginTop="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/kategori"
-                            android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
-                    </LinearLayout>
-
-                    <!-- Haircare Category -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="16dp">
-
-                        <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/kategori_haircare"
-                            android:adjustViewBounds="true"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/haircare"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"
-                            android:layout_marginTop="8dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/kategori"
-                            android:textSize="14sp"
-                            android:textColor="#AAAAAA"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!-- Recommendations Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rekomendasi_untuk_nama"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Product Grid -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp">
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_category" />
 
-                <!-- Product 1 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:scaleType="centerCrop"
-                                android:src="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/new_corner"
-                                android:textColor="@android:color/white"
-                                android:textSize="14sp"
-                                android:background="@color/pink_light"
-                                android:padding="6dp"
-                                android:layout_margin="8dp"/>
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="SASC WhiteTen Miracle Flawless Fatigued ..."
-                                android:textSize="14sp"
-                                android:textColor="@android:color/black"
-                                android:maxLines="2"
-                                android:ellipsize="end"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Rp139.000"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black"
-                                android:layout_marginTop="8dp"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Product 2 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:scaleType="centerCrop"
-                                android:src="@android:color/white"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/new_corner"
-                                android:textColor="@android:color/white"
-                                android:textSize="14sp"
-                                android:background="@color/pink_light"
-                                android:padding="6dp"
-                                android:layout_margin="8dp"/>
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="SASC WhiteTen Miracle Flawless Fatigued ..."
-                                android:textSize="14sp"
-                                android:textColor="@android:color/black"
-                                android:maxLines="2"
-                                android:ellipsize="end"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Rp139.000"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black"
-                                android:layout_marginTop="8dp"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <!-- Add some bottom padding -->
-            <View
+            <!-- Produk Grid RecyclerView -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="16dp"/>
+                android:layout_height="wrap_content"
+                android:text="Rekomendasi Produk"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -432,4 +116,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/button_navigation_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

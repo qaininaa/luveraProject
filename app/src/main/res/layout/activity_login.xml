@@ -81,7 +81,7 @@
         android:id="@+id/etEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Email / Username"
+        android:hint="Email"
         android:background="@android:color/white"
         android:padding="16dp"
         android:textColor="#000"
