@@ -23,6 +23,8 @@ public class Product {
     public String getName() { return name; }
     public double getPrice() { return price; }
     public String getImage() { return image; }
+    public String getDescription() { return description; }
+
     public String getCategory() {
         return category;
     }

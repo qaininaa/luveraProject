@@ -6,19 +6,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
+    public interface OnProductClickListener {
+        void onProductClick(Product product);
+    }
+
     private Context context;
     private List<Product> productList;
+    private OnProductClickListener listener;
 
-    public ProductAdapter(Context context, List<Product> products) {
+    public ProductAdapter(Context context, List<Product> productList, OnProductClickListener listener) {
         this.context = context;
-        this.productList = products;
+        this.productList = productList;
+        this.listener = listener;
+    }
+
+    public void updateData(List<Product> newList) {
+        this.productList = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,14 +49,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.textPrice.setText("Rp" + String.format("%,.0f", product.getPrice()));
 
         String image = product.getImage();
-        if (image.startsWith("http")) {
-            // Load dari URL pakai Glide
+
+        if (image != null && image.startsWith("http")) {
             Glide.with(context)
                     .load(image)
                     .placeholder(R.drawable.kategori_default)
                     .into(holder.imageProduct);
         } else {
-            // Load dari drawable lokal
+            // Gambar dari drawable lokal
             int imageResId = context.getResources().getIdentifier(
                     image, "drawable", context.getPackageName());
 
@@ -52,6 +66,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 holder.imageProduct.setImageResource(R.drawable.kategori_default); // fallback
             }
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onProductClick(product);
+            }
+        });
     }
 
 
@@ -71,10 +91,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textPrice = itemView.findViewById(R.id.textProductPrice);
         }
     }
-    public void updateData(List<Product> newProducts) {
-        this.productList = newProducts;
-        notifyDataSetChanged();
-    }
-
 }
-
