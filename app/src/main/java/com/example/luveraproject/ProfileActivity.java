@@ -13,10 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -33,27 +29,15 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         tvPhone = findViewById(R.id.tvPhone);
 
-        // Ambil data user dari Firebase
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        String username = snapshot.child("username").getValue(String.class);
-                        String email = snapshot.child("email").getValue(String.class);
-                        String phone = snapshot.child("phone").getValue(String.class); // ⬅ GANTI dari "nohp"
+        // ✅ Ambil data dari SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
+        String username = sharedPref.getString("username", "Nama Pengguna");
+        String email = sharedPref.getString("email", "email@example.com");
+        String phone = sharedPref.getString("phone", "08xxxxxxxx");
 
-                        tvName.setText(username);
-                        tvEmail.setText(email);
-                        tvPhone.setText(phone);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        tvName.setText("Gagal load data");
-                    }
-                });
+        tvName.setText(username);
+        tvEmail.setText(email);
+        tvPhone.setText(phone);
 
         // Tambah menu
         addMenuItem(R.drawable.ic_home_profile, "My Account");
@@ -82,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (intent != null) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // ⬅ Hilangkan animasi transisi
+                overridePendingTransition(0, 0);
                 finish();
             }
             return true;
@@ -111,7 +95,6 @@ public class ProfileActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 finish();
             }
-            // Tambah else-if untuk My Account dsb jika mau
         });
 
         menuContainer.addView(item);
@@ -119,7 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);

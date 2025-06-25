@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Teks interaktif untuk register
+        // Link ke register
         tvRegister.setText(Html.fromHtml("Belum punya akun? <font color='#0000FF'><u>Register now</u></font>"));
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
@@ -48,15 +48,15 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
+            String emailInput = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            if (TextUtils.isEmpty(emailInput) || TextUtils.isEmpty(password)) {
                 Toast.makeText(LoginActivity.this, "Email dan password harus diisi!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(email, password)
+            mAuth.signInWithEmailAndPassword(emailInput, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             String uid = mAuth.getCurrentUser().getUid();
@@ -66,9 +66,14 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
                                     String username = snapshot.child("username").getValue(String.class);
+                                    String email = snapshot.child("email").getValue(String.class);
+                                    String phone = snapshot.child("phone").getValue(String.class);
 
+                                    // Simpan ke SharedPreferences
                                     SharedPreferences.Editor editor = getSharedPreferences("UserSession", MODE_PRIVATE).edit();
                                     editor.putString("username", username);
+                                    editor.putString("email", email);
+                                    editor.putString("phone", phone);
                                     editor.apply();
 
                                     Toast.makeText(LoginActivity.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
