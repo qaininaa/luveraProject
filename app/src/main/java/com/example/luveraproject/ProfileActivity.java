@@ -24,6 +24,16 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT); // Bikin status bar transparan
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            ); // Biar konten tetap "di bawah" status bar dan icon status bar gelap
+        }
+
+
         menuContainer = findViewById(R.id.menuContainer);
         tvName = findViewById(R.id.tvName);
         tvEmail = findViewById(R.id.tvEmail);
