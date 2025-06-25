@@ -7,26 +7,27 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SplashscreenActivity extends AppCompatActivity {
-
-    private static final int SPLASH_DURATION = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
 
         new Handler().postDelayed(() -> {
-            SharedPreferences prefs = getSharedPreferences("onboardPrefs", MODE_PRIVATE);
-            boolean isFirstTime = prefs.getBoolean("isFirstTime", true);
+            SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+            boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+            boolean isLoggedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
 
-            if (isFirstTime) {
-                startActivity(new Intent(SplashscreenActivity.this, OnboardingActivity.class));
+            if (isLoggedIn) {
+                startActivity(new Intent(this, HomeActivity.class));
+            } else if (isFirstRun) {
+                startActivity(new Intent(this, OnboardingActivity.class));
             } else {
-                startActivity(new Intent(SplashscreenActivity.this, GetstartedActivity.class));
+                startActivity(new Intent(this, GetstartedActivity.class));
             }
-
             finish();
-        }, SPLASH_DURATION);
+        }, 1500);
     }
 }
+

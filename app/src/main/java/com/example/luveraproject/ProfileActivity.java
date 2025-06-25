@@ -1,6 +1,7 @@
 package com.example.luveraproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -31,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+
+
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -71,13 +75,29 @@ public class ProfileActivity extends AppCompatActivity {
         icon.setImageResource(iconResId);
         text.setText(title);
 
-        // Optional: OnClickListener
         item.setOnClickListener(v -> {
-            // TODO: Add action based on title or a tag
+            if (title.equalsIgnoreCase("Logout")) {
+                FirebaseAuth.getInstance().signOut();
+
+                SharedPreferences.Editor editor = getSharedPreferences("UserSession", MODE_PRIVATE).edit();
+                editor.clear();
+                editor.apply();
+
+                Intent intent = new Intent(ProfileActivity.this, GetstartedActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            } else {
+                // Bisa tambah else-if untuk item lain, misal:
+                if (title.equalsIgnoreCase("My Account")) {
+                    // startActivity(new Intent(...));
+                }
+            }
         });
 
         menuContainer.addView(item);
     }
+
 
     @Override
     public void onBackPressed() {

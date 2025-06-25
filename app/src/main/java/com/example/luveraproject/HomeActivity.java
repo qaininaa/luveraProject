@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         welcomeText = findViewById(R.id.textWelcome);
 
+        // Ambil username dari SharedPreferences
         SharedPreferences sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE);
         String username = sharedPref.getString("username", "Pengguna");
         welcomeText.setText("Hai, " + username);
