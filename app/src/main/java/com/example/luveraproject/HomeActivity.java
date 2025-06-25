@@ -47,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(getResources().getColor(android.R.color.white));
+        }
+
         recyclerView = findViewById(R.id.recyclerViewProducts);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
