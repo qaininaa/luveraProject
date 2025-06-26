@@ -52,7 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
         // Tambah menu
         addMenuItem(R.drawable.ic_home_profile, "My Account");
         addMenuItem(R.drawable.ic_address_profile, "Address");
-        addMenuItem(R.drawable.ic_transportation_profile, "Transportation");
         addMenuItem(R.drawable.ic_logout_profile, "Logout");
         addMenuItem(R.drawable.ic_help_profile, "Help & Support");
         addMenuItem(R.drawable.ic_about_profile, "About App");

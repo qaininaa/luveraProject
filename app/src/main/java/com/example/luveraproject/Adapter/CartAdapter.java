@@ -1,4 +1,3 @@
-// CartAdapter.java
 package com.example.luveraproject.Adapter;
 
 import android.content.Context;
