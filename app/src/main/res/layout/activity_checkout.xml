@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Top bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,21 +40,20 @@
             android:textColor="#888888" />
 
         <TextView
-            android:id="@+id/textAlamatTitle"
+            android:id="@+id/tvRumahUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rumah . Sekar"
+            android:text="Rumah. [Nama Pengguna]"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="4dp"/>
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
 
         <TextView
-            android:id="@+id/textAlamatDetail"
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jl. Bunga Cinta 117, Depok, Jawa Barat"
-            android:textSize="14sp"
-            android:layout_marginTop="2dp" />
+            android:text="Alamat Rumah"
+            android:layout_marginBottom="14dp" />
     </LinearLayout>
 
     <!-- Produk list -->
@@ -81,13 +79,30 @@
             android:orientation="vertical"
             android:layout_marginBottom="12dp">
             <TextView
-                android:id="@+id/tvTotal"
-                android:layout_width="match_parent"
+                android:id="@+id/tvSubtotal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total: Rp0"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginTop="4dp"/>
+                android:text="Subtotal: Rp0" />
+
+            <TextView
+                android:id="@+id/tvOngkir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ongkir: Rp0" />
+
+            <TextView
+                android:id="@+id/tvBiayaLayanan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Biaya Layanan: Rp0" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TOTAL: Rp0"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <!-- Tombol Buy Now -->

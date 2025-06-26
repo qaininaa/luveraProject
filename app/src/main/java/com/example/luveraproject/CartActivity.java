@@ -65,9 +65,23 @@ public class CartActivity extends AppCompatActivity
 
         // ---- checkout
         buttonCheckout.setOnClickListener(v -> {
+            // Ambil produk yang dicentang (checked = true)
+            ArrayList<CartItem> selectedItems = new ArrayList<>();
+            for (CartItem item : cartList) {
+                if (item.checked) selectedItems.add(item);
+            }
+
+            if (selectedItems.isEmpty()) {
+                Toast.makeText(this, "Pilih minimal 1 produk untuk checkout", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Kirim ke CheckoutActivity
             Intent intent = new Intent(this, CheckoutActivity.class);
+            intent.putExtra("selectedItems", selectedItems);
             startActivity(intent);
         });
+
 
 
         // ---- bottom nav

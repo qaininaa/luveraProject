@@ -94,16 +94,21 @@ public class ProfileActivity extends AppCompatActivity {
         text.setText(title);
 
         item.setOnClickListener(v -> {
-            if (title.equalsIgnoreCase("Logout")) {
-                FirebaseAuth.getInstance().signOut();
-                SharedPreferences.Editor editor = getSharedPreferences("UserSession", MODE_PRIVATE).edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(ProfileActivity.this, GetstartedActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-                finish();
+            switch (title.toLowerCase()) {
+                case "address":
+                    startActivity(new Intent(ProfileActivity.this, AddressActivity.class));
+                    break;
+                case "logout":
+                    FirebaseAuth.getInstance().signOut();
+                    SharedPreferences.Editor editor = getSharedPreferences("UserSession", MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.apply();
+                    Intent intent = new Intent(ProfileActivity.this, GetstartedActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    finish();
+                    break;
             }
         });
 

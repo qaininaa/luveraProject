@@ -1,7 +1,8 @@
 package com.example.luveraproject.Model;
 
-public class CartItem {
+import java.io.Serializable;
 
+public class CartItem implements Serializable {
     public String name;
     public double price;
     public String image;
