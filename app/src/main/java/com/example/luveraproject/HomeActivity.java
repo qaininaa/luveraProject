@@ -70,12 +70,14 @@ public class HomeActivity extends AppCompatActivity {
 
         productAdapter = new ProductAdapter(this, productList, product -> {
             Intent intent = new Intent(HomeActivity.this, ProductDetailActivity.class);
+            intent.putExtra("key", product.getKey()); // ⬅️ Penting!
             intent.putExtra("name", product.getName());
             intent.putExtra("price", product.getPrice());
             intent.putExtra("image", product.getImage());
             intent.putExtra("description", product.getDescription());
             startActivity(intent);
         });
+
 
         recyclerView.setAdapter(productAdapter);
 
@@ -159,6 +161,9 @@ public class HomeActivity extends AppCompatActivity {
                             stock
                     );
 
+                    // Tambahkan key Firebase
+                    product.setKey(data.getKey());
+
                     productList.add(product);
                     allProducts.add(product);
                 }
@@ -176,6 +181,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onResume() {

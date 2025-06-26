@@ -1,77 +1,111 @@
 package com.example.luveraproject;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.luveraproject.Model.CartItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    ImageView imageProduct;
-    TextView textName, textPrice, textDescription;
+    private ImageView productImage;
+    private TextView productName, productPrice, productDescription;
+    private Button cartButton;
+    private ImageButton backButton;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference cartRef;
+
+    private String productKey; // ⬅️ Field global (bukan lokal)
+    private String name;
+    private double price;
+    private String imageUrl;
+    private String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        // Toolbar setup
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // Inisialisasi UI
+        productImage = findViewById(R.id.productImage);
+        productName = findViewById(R.id.productName);
+        productPrice = findViewById(R.id.productPrice);
+        productDescription = findViewById(R.id.productDescription);
+        cartButton = findViewById(R.id.cartButton);
+        backButton = findViewById(R.id.backButton);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // tampilkan tombol back
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Detail Produk");
+        // Firebase setup
+        mAuth = FirebaseAuth.getInstance();
+        cartRef = FirebaseDatabase.getInstance().getReference("Carts");
+
+        // Ambil data dari intent dan simpan ke field global
+        productKey = getIntent().getStringExtra("key");
+        name = getIntent().getStringExtra("name");
+        price = getIntent().getDoubleExtra("price", 0.0);
+        imageUrl = getIntent().getStringExtra("image");
+        description = getIntent().getStringExtra("description");
+
+        // Validasi productKey
+        if (productKey == null || productKey.isEmpty()) {
+            Toast.makeText(this, "Produk tidak valid (key kosong)", Toast.LENGTH_SHORT).show();
+            finish(); // keluar dari activity
+            return;
         }
 
-        toolbar.setNavigationIcon(R.drawable.back_icon); // pastikan file ada di res/drawable
+        // Tampilkan informasi produk
+        productName.setText(name);
+        productPrice.setText("Rp" + String.format("%,.0f", price));
+        productDescription.setText(description);
 
-        // Aksi klik ikon back
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(ProductDetailActivity.this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
-
-        // View setup
-        imageProduct = findViewById(R.id.imageProductDetail);
-        textName = findViewById(R.id.textProductNameDetail);
-        textPrice = findViewById(R.id.textProductPriceDetail);
-        textDescription = findViewById(R.id.textProductDescription);
-
-        // Get data dari intent
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        double price = intent.getDoubleExtra("price", 0);
-        String image = intent.getStringExtra("image");
-        String description = intent.getStringExtra("description");
-
-        // Tampilkan data ke tampilan
-        textName.setText(name);
-        textPrice.setText("Rp" + String.format("%,.0f", price));
-        textDescription.setText(description);
-
-        // Tampilkan gambar
-        if (image != null && image.startsWith("http")) {
-            Glide.with(this)
-                    .load(image)
-                    .placeholder(R.drawable.kategori_default)
-                    .into(imageProduct);
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(this).load(imageUrl).into(productImage);
         } else {
-            int imageResId = getResources().getIdentifier(image, "drawable", getPackageName());
-            if (imageResId != 0) {
-                imageProduct.setImageResource(imageResId);
-            } else {
-                imageProduct.setImageResource(R.drawable.kategori_default); // fallback
-            }
+            productImage.setImageResource(R.drawable.kategori_default);
         }
 
+        // Tombol kembali
+        backButton.setOnClickListener(v -> finish());
+
+        // Tombol tambah ke keranjang
+        cartButton.setOnClickListener(v -> {
+            if (mAuth.getCurrentUser() == null) {
+                Toast.makeText(this, "Silakan login dulu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String userId = mAuth.getCurrentUser().getUid();
+
+            DatabaseReference itemRef = cartRef.child(userId).child(productKey);
+
+            itemRef.get().addOnSuccessListener(snapshot -> {
+                if (snapshot.exists()) {
+                    Long qty = snapshot.child("quantity").getValue(Long.class);
+                    int newQty = (qty == null ? 0 : qty.intValue()) + 1;
+
+                    itemRef.child("quantity").setValue(newQty)
+                            .addOnSuccessListener(a ->
+                                    Toast.makeText(this, "Jumlah produk diperbarui (" + newQty + ")", Toast.LENGTH_SHORT).show());
+                } else {
+                    CartItem item = new CartItem(name, price, imageUrl, 1, true);
+                    item.key = productKey;
+
+                    itemRef.setValue(item)
+                            .addOnSuccessListener(a ->
+                                    Toast.makeText(this, "Ditambahkan ke keranjang!", Toast.LENGTH_SHORT).show());
+                }
+            }).addOnFailureListener(e ->
+                    Toast.makeText(this, "Gagal mengakses keranjang: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        });
     }
 }
