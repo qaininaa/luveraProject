@@ -29,7 +29,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+            android:text="Nikmati kemudahan transaksi online kapan saja, di mana saja."
             android:textSize="12dp"></TextView>
         <ImageView
             android:id="@+id/gambar"

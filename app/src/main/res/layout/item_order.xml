@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lihat semua"
-            android:textColor="#8F43EE"
+            android:textColor="#FFEAF2"
             android:textSize="13sp"
             android:visibility="gone"
             android:layout_marginTop="4dp" />
@@ -110,12 +110,13 @@
             android:text="Total: Rp0"
             android:textStyle="bold"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSelesai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Selesai"
-            android:textColor="#EC6EAA"
+            android:textColor="#DB749A"
             android:background="@drawable/bg_button_rounded_pink"/>
+
     </LinearLayout>
 </LinearLayout>

@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         List<Category> categories = Arrays.asList(
-                new Category("Semua", R.drawable.kategori_default),
+                new Category("Semua", R.drawable.kategori_semua),
                 new Category("Makeup", R.drawable.kategori_makeup),
                 new Category("Skincare", R.drawable.kategori_skincare),
                 new Category("Bodycare", R.drawable.kategori_bodycare),
