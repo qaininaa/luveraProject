@@ -1,15 +1,13 @@
 package com.example.luveraproject.Model;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Order {
-    public double subtotal;
-    public double ongkir;
-    public double fee;
-    public double total;
-    public String status;
-    public long createdAt;
-    public Map<String, CartItem> items;
+    public String key;                          // push-key order
+    public double subtotal, ongkir, fee, total;
+    public String status;                       // pending / selesai
+    public long createdAt;                      // millis
+    public HashMap<String, CartItem> items;     // <cartKey, CartItem>
 
-    public Order() {} // Wajib untuk Firebase
+    public Order() {}                           // wajib utk Firebase
 }

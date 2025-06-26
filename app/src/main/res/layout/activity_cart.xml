@@ -21,11 +21,6 @@
             android:text="Cart"
             android:textSize="20sp"
             android:textStyle="bold"/>
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/search"/>
     </LinearLayout>
 
     <!-- List keranjang -->

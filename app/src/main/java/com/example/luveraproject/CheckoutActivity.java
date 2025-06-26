@@ -1,5 +1,6 @@
 package com.example.luveraproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,7 +117,10 @@ public class CheckoutActivity extends AppCompatActivity {
                         }
                     }
                     Toast.makeText(this, "Order berhasil dibuat!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, HistoryActivity.class);
+                    startActivity(intent);
                     finish();
+
                 });
             }).addOnFailureListener(e ->
                     Toast.makeText(this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show()

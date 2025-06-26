@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.luveraproject" />
+                  <option name="mobileSdkAppId" value="1:268712162233:android:8736262b5aa813382c7c68" />
+                  <option name="projectId" value="luvera-443c9" />
+                  <option name="projectNumber" value="268712162233" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
